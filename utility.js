@@ -1,10 +1,15 @@
 /**
  * 日本語の日付文字列（例: "YYYY年MM月DD日"）を解析してDateオブジェクトを返します。
  * 解析できない場合はnullを返します。
- * @param {string} dateString - 解析する日付文字列。
+ * @param {string|Date} dateInput - 解析する日付文字列、またはDateオブジェクト。
  * @returns {Date|null} 解析されたDateオブジェクト、または解析できない場合はnull。
  */
-function parseJapaneseDateString(dateString) {
+function parseJapaneseDateString(dateInput) {
+  if (dateInput instanceof Date) {
+    return dateInput;
+  }
+
+  const dateString = String(dateInput); // Ensure it's a string for match method
   const match = dateString.match(/^(\d{4})年(\d{1,2})月(\d{1,2})日(?:(\d{1,2})時(\d{1,2})分(\d{1,2})秒)?$/);
   if (match) {
     const year = parseInt(match[1], 10);
