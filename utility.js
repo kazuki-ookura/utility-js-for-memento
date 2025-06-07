@@ -47,3 +47,56 @@ function getAge(date1, date2) {
   }
   return age;
 }
+
+/**
+ * 誕生日から現在の年齢を計算します。
+ * @param {Date} birthday - 誕生日のDateオブジェクト。
+ * @returns {number} 計算された年齢。
+ */
+function getAgeFromBirthday(birthday) {
+  const today = new Date();
+  let age = today.getFullYear() - birthday.getFullYear();
+  const monthDiff = today.getMonth() - birthday.getMonth();
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+/**
+ * 配列内のレコードから、指定されたキーの合計値が最大のレコードを返します。
+ *
+ * @param {Array<Object>} records - 検索対象のレコードの配列。各要素はオブジェクトである必要があります。
+ * @param {Array<string>} keys - 合計値を計算するために使用するプロパティ名の配列。
+ *                                これらのプロパティの値は数値であると仮定されます。存在しない、または数値でないプロパティは無視されます。
+ * @returns {Object|null} 合計値が最大のレコード。recordsが空の場合、または有効な数値プロパティが見つからない場合はnull。
+ */
+function getMaxSumRecord(records, keys) {
+  if (!records || records.length === 0) {
+    return null;
+  }
+
+  let maxRecord = null;
+  let maxScore = -Infinity;
+
+  for (let i = 0; i < records.length; i++) {
+    const record = records[i];
+    let currentScore = 0;
+
+    for (let j = 0; j < keys.length; j++) {
+      const key = keys[j];
+      const value = record[key];
+
+      if (typeof value === 'number' && !isNaN(value)) {
+        currentScore += value;
+      }
+    }
+
+    if (currentScore > maxScore) {
+      maxScore = currentScore;
+      maxRecord = record;
+    }
+  }
+
+  return maxRecord;
+}
